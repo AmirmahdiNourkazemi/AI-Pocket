@@ -12,9 +12,9 @@ class OtpParams {
 }
 
 class StoreMessage {
-  final int id;
-  final String body;
-  StoreMessage(this.id, this.body);
+  final String system;
+  final String user;
+  StoreMessage(this.system, this.user);
 }
 
 class MyketPayment {

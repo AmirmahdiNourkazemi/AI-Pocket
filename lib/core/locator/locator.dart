@@ -1,4 +1,10 @@
 import 'package:appro_chat/core/localstorage/local_data.dart';
+import 'package:appro_chat/feature/home/data/data_source/remote/home_api_provider.dart';
+import 'package:appro_chat/feature/home/data/repository/home_repositoryImpl.dart';
+import 'package:appro_chat/feature/home/domain/repository/home_repository.dart';
+import 'package:appro_chat/feature/home/domain/usecase/store_chat_usecase.dart';
+import 'package:appro_chat/feature/home/presentation/bloc/chat_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,6 +23,17 @@ setup() async {
   locator.registerSingleton<Dio>(ViolationDioWrapper.provide());
   locator.registerSingleton<ApiProviderImp>(ApiProviderImp());
 
-  ///repositories
+  ///api
+  locator.registerSingleton<HomeApiProvider>(HomeApiProvider());
+
+  //repo
+  locator.registerSingleton<HomeRepository>(
+      HomeRepositoryimpl(homeApiProvider: locator()));
+
+  //usecase
+  locator.registerSingleton<StoreChatUsecase>(StoreChatUsecase(locator()));
+
+  //bloc
+  locator.registerSingleton<ChatBloc>(ChatBloc(locator()));
   // locator.registerFactory<ProductBloc>(()=>ProductBloc(locator() , locator() , locator()));
 }
