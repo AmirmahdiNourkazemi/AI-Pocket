@@ -10,6 +10,7 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
+  await locator<LocalData>().loadTheme();
   runApp(const MyApp());
 }
 

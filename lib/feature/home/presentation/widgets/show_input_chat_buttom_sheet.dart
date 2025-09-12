@@ -37,9 +37,14 @@ class ShowInputChatButtomSheet extends StatefulWidget {
       _ShowInputChatButtomSheetState();
 }
 
-TextEditingController userTextEditingController = TextEditingController();
-
 class _ShowInputChatButtomSheetState extends State<ShowInputChatButtomSheet> {
+  TextEditingController userTextEditingController = TextEditingController();
+  @override
+  void dispose() {
+    userTextEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ChatBloc, ChatState>(
@@ -49,7 +54,10 @@ class _ShowInputChatButtomSheetState extends State<ShowInputChatButtomSheet> {
             content: Text(state.error),
           ));
         } else if (state is ChatSuccess) {
-          userTextEditingController.clear();
+          setState(() {
+            userTextEditingController.clear();
+            FocusScope.of(context).unfocus();
+          });
         }
       },
       builder: (context, state) {
@@ -101,12 +109,16 @@ class _ShowInputChatButtomSheetState extends State<ShowInputChatButtomSheet> {
                           StoreMessage(widget.item['system'],
                               userTextEditingController.text)));
                     },
-                    label: const Text('ارسال به هوش مصنوعی'),
-                    icon: state is ChatLoading
+                    label: state is ChatLoading
                         ? CircularProgressIndicator(
+                            strokeWidth: 0.5,
                             color: Theme.of(context).colorScheme.onPrimary,
                           )
-                        : const Icon(MingCute.chat_1_line))
+                        : const Text('ارسال به هوش مصنوعی'),
+                    icon: const Icon(MingCute.chat_1_line)),
+                const SizedBox(
+                  height: Dimensions.marginMedium,
+                ),
               ],
             ),
           ),

@@ -2,7 +2,8 @@ import 'package:appro_chat/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'loading.dart';
 
-void showLoadingDialog(BuildContext context, {String title = 'لطفا صبر کنید'}) {
+void showLoadingDialog(BuildContext context,
+    {String title = '...لطفا صبر کنید'}) {
   showDialog(
     context: context,
     barrierDismissible: false, // Prevent closing when tapping outside

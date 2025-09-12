@@ -4,6 +4,6 @@ import 'package:lottie/lottie.dart';
 
 Widget aiLoadingWidget(BuildContext context) {
   return Center(
-    child: Lottie.asset('assets/json/ai.json'),
+    child: Lottie.asset('assets/json/ai.json', height: 80),
   );
 }

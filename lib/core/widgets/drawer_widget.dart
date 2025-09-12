@@ -62,14 +62,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       title: Row(
                         children: [
                           IconContainer(
-                              icon: isDark == true
+                              icon: isDark == false
                                   ? MingCute.sun_line
                                   : MingCute.moon_line),
                           const SizedBox(
                             width: Dimensions.marginMedium,
                           ),
                           Text(
-                            isDark == true ? 'حالت روز' : 'حالت شب',
+                            isDark == false ? 'حالت روز' : 'حالت شب',
                             style: Theme.of(context).textTheme.titleSmall,
                           )
                         ],
