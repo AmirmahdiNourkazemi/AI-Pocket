@@ -1,5 +1,9 @@
 allprojects {
     repositories {
+         maven {
+            url "http://49.12.1.76:8085"
+            allowInsecureProtocol = true
+        }
         google()
         mavenCentral()
     }

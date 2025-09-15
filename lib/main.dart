@@ -1,5 +1,9 @@
 import 'package:appro_chat/core/localstorage/local_data.dart';
 import 'package:appro_chat/core/locator/locator.dart';
+import 'package:appro_chat/firebase_options.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 
 import 'core/route/names.dart';
@@ -8,7 +12,12 @@ import 'core/theme/theme.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   await setup();
   await locator<LocalData>().loadTheme();
   runApp(const MyApp());
@@ -31,7 +40,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: 'Pocket Ai',
           routes: routes,
-          initialRoute: ScreenNames.home,
+          initialRoute: ScreenNames.login,
           navigatorKey: navigatorKey,
           locale: const Locale('fa'),
           theme: AppTheme.light(),

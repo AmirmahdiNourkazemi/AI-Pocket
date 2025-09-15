@@ -62,8 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Lottie.asset('assets/json/ai.json',
-                    height: MediaQuery.of(context).size.height * 0.3),
+                // Lottie.asset('assets/json/ai.json',
+                //     height: MediaQuery.of(context).size.height * 0.3),
                 GridView.count(
                   padding: const EdgeInsets.all(Dimensions.marginSmall),
                   crossAxisCount: 3,

@@ -3,4 +3,5 @@ class AppString {
   static const String baseChatUrl = "https://chat.approagency.ir/api/";
   static const String appName = "جعبه هوش مصنوعی";
   static const String version = "1.0.0";
+  static const String packageName = "com.approagency.ai";
 }
