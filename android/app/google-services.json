@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "747226199838",
-    "project_id": "ai-pocket-26ceb",
-    "storage_bucket": "ai-pocket-26ceb.firebasestorage.app"
+    "project_number": "367909824831",
+    "project_id": "ai-pocket-f83ff",
+    "storage_bucket": "ai-pocket-f83ff.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:747226199838:android:925653228e8cfa61bbfb0f",
+        "mobilesdk_app_id": "1:367909824831:android:4a9511b55f1f078f908b8a",
         "android_client_info": {
           "package_name": "com.approagency.ai"
         }
       },
       "oauth_client": [
         {
-          "client_id": "747226199838-mh0cqbhla5oab3488agmekn9n98juhr9.apps.googleusercontent.com",
+          "client_id": "367909824831-jiia676bdh4lh12ckbn82f3v810ivcdk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.approagency.ai",
-            "certificate_hash": "5d0878740bfcbdc82d24de4244c861f8f57d379d"
+            "certificate_hash": "61693858f1dc060cdaa6db6e1d41aea47e875a5a"
           }
         },
         {
-          "client_id": "747226199838-s7arqbv2tq24dm6cf7iivbedtidph61k.apps.googleusercontent.com",
+          "client_id": "367909824831-pmu69422fionmlhb4si2cjml29ahknvo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBjMvaQ-3Yb4LCb4TvovjOX6sT5SmZ9b4Q"
+          "current_key": "AIzaSyBXrj06l_x5gbGsZuQfC5uyw3qzE8aJedk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "747226199838-s7arqbv2tq24dm6cf7iivbedtidph61k.apps.googleusercontent.com",
+              "client_id": "367909824831-pmu69422fionmlhb4si2cjml29ahknvo.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

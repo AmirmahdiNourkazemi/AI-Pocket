@@ -11,5 +11,6 @@ abstract class AuthRepository {
   // Future<DataState<String>> removeUser();
   Future<DataState<String>> loginGoogleApprroo(String accessToken);
   Future<DataState<String>?> signInWithGoogle();
+  Future<void> googleLogout();
   //  Future<DataState<String>?> signInAsGust();
 }

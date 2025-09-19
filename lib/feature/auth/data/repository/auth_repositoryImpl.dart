@@ -12,10 +12,10 @@ import '../model/user.dart' as userLocal;
 class AuthRepositoryimpl extends AuthRepository {
   AuthApiProvider apiProvider;
   GoogleSignIn googleSignIn;
-  AuthRepositoryimpl(this.apiProvider,this.googleSignIn);
+  AuthRepositoryimpl(this.apiProvider, this.googleSignIn);
   @override
-  Future<DataState<String>> loginGoogleApprroo(String accessToken) async{
-    Response response =    await apiProvider.approGoogleLogin(accessToken);
+  Future<DataState<String>> loginGoogleApprroo(String accessToken) async {
+    Response response = await apiProvider.approGoogleLogin(accessToken);
 
     if (response.statusCode == 200) {
       await locator<LocalData>().saveApproToken(response.data['token']);
@@ -26,16 +26,25 @@ class AuthRepositoryimpl extends AuthRepository {
           errorConvertor(response.statusCode, response.data['message']));
     }
   }
-  
+
   @override
-  Future<DataState<String>?> signInWithGoogle() async{
+  Future<DataState<String>?> signInWithGoogle() async {
     final googleUser = await googleSignIn.signIn();
     if (googleUser == null) return null;
 
     final googleAuth = await googleUser.authentication;
-    return googleAuth.accessToken != null ? await loginGoogleApprroo(googleAuth.accessToken!) : null;
+    print('google auth');
+    print(googleAuth.accessToken);
+    return googleAuth.accessToken != null
+        ? await loginGoogleApprroo(googleAuth.accessToken!)
+        : null;
   }
-  
+
+  @override
+  Future<void> googleLogout() async {
+    await googleSignIn.signOut();
+  }
+
   // @override
   // Future<DataState<String>?> signInAsGust() async{
   //  Response response =   await apiProvider.loginAsGust();
@@ -49,5 +58,4 @@ class AuthRepositoryimpl extends AuthRepository {
   //         errorConvertor(response.statusCode, response.data['message']));
   //   }
   // }
-
 }

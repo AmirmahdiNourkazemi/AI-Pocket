@@ -11,8 +11,9 @@ import 'core/route/routes.dart';
 import 'core/theme/theme.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+// GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 void main() async {
-   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

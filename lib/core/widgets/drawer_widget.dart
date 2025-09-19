@@ -4,6 +4,7 @@ import 'package:appro_chat/core/locator/locator.dart';
 import 'package:appro_chat/core/theme/theme.dart';
 import 'package:appro_chat/core/widgets/icon_container.dart';
 import 'package:appro_chat/core/widgets/support_buttom_sheet.dart';
+import 'package:appro_chat/feature/auth/domain/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -183,7 +184,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     onTap: () async {
                       await locator<LocalData>().saveApproToken('');
                       await locator<LocalData>().saveFinalToken('');
-                      // await locator<LocalData>().logOut();
+                      await locator<AuthRepository>().googleLogout();
                       Navigator.of(context).pushReplacementNamed('/login');
                     },
                   ),

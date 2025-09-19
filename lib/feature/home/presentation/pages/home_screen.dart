@@ -9,6 +9,7 @@ import 'package:appro_chat/feature/home/presentation/bloc/chat_state.dart';
 import 'package:appro_chat/feature/home/presentation/widgets/ai_list.dart';
 import 'package:appro_chat/feature/home/presentation/widgets/show_input_chat_buttom_sheet.dart';
 import 'package:appro_chat/feature/home/presentation/widgets/success_message_chat_bot.dart';
+import 'package:appro_chat/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,9 +22,11 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+// GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ChatBloc, ChatState>(

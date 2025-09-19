@@ -24,9 +24,10 @@ class LoginScreen extends StatefulWidget {
 TextEditingController mobileController = TextEditingController();
 
 class _LoginScreenState extends State<LoginScreen> {
-  // final GlobalKey<FormState> _loginForm = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormState> _loginForm = GlobalKey<FormState>();
+
     return BlocProvider(
       create: (context) => locator<AuthBloc>(),
       child: Scaffold(
@@ -101,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       // ValueListenableBuilder(
                       //   valueListenable: LocalData.countAsGuest ,
                       //   builder: (context, value, child) {
-                         
+
                       //     if (value! < 3) {
                       //      return Padding(
                       //     padding: const EdgeInsets.symmetric(vertical: 8),
@@ -117,13 +118,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       //           BlocProvider.of<AuthBloc>(context)
                       //               .add(LoginAsGuestEvent());
                       //         }),
-                      //   );   
+                      //   );
                       //     } else {
                       //       return Container();
                       //     }
-                           
+
                       //   },
-                        
+
                       // ),
                       // Padding(
                       //   padding: const EdgeInsets.symmetric(vertical: 8),
@@ -132,13 +133,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       //       icon: AppIcons.google,
                       //       isLoading: state.authStatus is LoginLoading,
                       //       onClick: () {
-                              
+
                       //       }),
                       // ),
-                      ElevatedButton(onPressed: (){
-                        BlocProvider.of<AuthBloc>(context)
+                      Center(
+                        child: ElevatedButton.icon(
+                            style: const ButtonStyle(
+                                minimumSize: WidgetStatePropertyAll<Size>(
+                                    Size(double.infinity, 45))),
+                            onPressed: () {
+                              BlocProvider.of<AuthBloc>(context)
                                   .add(LoginOtpEvent());
-                      }, child: Text('Login with google'))
+                            },
+                            icon: const Icon(IonIcons.logo_google),
+                            label: const Text('Login with google')),
+                      )
                     ],
                   ),
                   const SizedBox(
