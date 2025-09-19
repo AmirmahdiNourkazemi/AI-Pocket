@@ -2,11 +2,17 @@ import 'package:appro_chat/core/const/app_string.dart';
 import 'package:appro_chat/core/localstorage/local_data.dart';
 import 'package:appro_chat/core/locator/locator.dart';
 import 'package:appro_chat/core/theme/theme.dart';
+import 'package:appro_chat/core/widgets/handel_action.dart';
 import 'package:appro_chat/core/widgets/icon_container.dart';
+import 'package:appro_chat/core/widgets/show_toast.dart';
 import 'package:appro_chat/core/widgets/support_buttom_sheet.dart';
 import 'package:appro_chat/feature/auth/domain/repository/auth_repository.dart';
+import 'package:appro_chat/feature/product/presentation/widget/product_buttom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:toastification/toastification.dart';
+
+import 'validation.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
@@ -83,55 +89,55 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         await locator<LocalData>().saveTheme(val);
                       }),
 
-                  // const Divider(),
-                  // ValueListenableBuilder(
-                  //   valueListenable: LocalData.statusNotifier,
-                  //   builder: (context, value, child) {
-                  //     bool isPro;
-                  //     if (value == null || value.products!.isEmpty) {
-                  //       isPro = false;
-                  //     } else {
-                  //       isPro = true;
-                  //     }
-                  //     return ListTile(
-                  //       leading: IconContainer(
-                  //           icon: isPro
-                  //               ? MingCute.trophy_line
-                  //               : MingCute.shopping_cart_1_line),
-                  //       title: Text(
-                  //         isPro ? 'اشتراک دارید' : 'خرید اشتراک',
-                  //         style: Theme.of(context).textTheme.titleSmall,
-                  //       ),
-                  //       subtitle: isPro && value!.products![0].pivot != null
-                  //           ? Text(
-                  //               '${Validation.calculateRemainingDays(value.products![0].pivot!.expire_date)} روز باقی مانده',
-                  //               style: Theme.of(context).textTheme.bodySmall,
-                  //             )
-                  //           : null,
-                  //       onTap: () async {
-                  //         HandelAction.handleStatusUser(
-                  //             context: context,
-                  //             onTap: () {
-                  //               if (isPro) {
-                  //                 showToast(context, 'شما اشتراک دارید', '',
-                  //                     ToastificationType.warning,
-                  //                     isIconMessage: true);
-                  //               } else {
-                  //                 showModalBottomSheet(
-                  //                   showDragHandle: true,
-                  //                   backgroundColor:
-                  //                       Theme.of(context).colorScheme.onPrimary,
-                  //                   context: context,
-                  //                   builder: (BuildContext context) {
-                  //                     return const ProductBottomSheet();
-                  //                   },
-                  //                 );
-                  //               }
-                  //             });
-                  //       },
-                  //     );
-                  //   },
-                  // ),
+                  const Divider(),
+                  ValueListenableBuilder(
+                    valueListenable: LocalData.statusNotifier,
+                    builder: (context, value, child) {
+                      bool isPro;
+                      if (value == null || value.products!.isEmpty) {
+                        isPro = false;
+                      } else {
+                        isPro = true;
+                      }
+                      return ListTile(
+                        leading: IconContainer(
+                            icon: isPro
+                                ? MingCute.trophy_line
+                                : MingCute.shopping_cart_1_line),
+                        title: Text(
+                          isPro ? 'اشتراک دارید' : 'خرید اشتراک',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        subtitle: isPro && value!.products![0].pivot != null
+                            ? Text(
+                                '${Validation.calculateRemainingDays(value.products![0].pivot!.expire_date)} روز باقی مانده',
+                                style: Theme.of(context).textTheme.bodySmall,
+                              )
+                            : null,
+                        onTap: () async {
+                          HandelAction.handleStatusUser(
+                              context: context,
+                              onTap: () {
+                                if (isPro) {
+                                  showToast(context, 'شما اشتراک دارید', '',
+                                      ToastificationType.warning,
+                                      isIconMessage: true);
+                                } else {
+                                  showModalBottomSheet(
+                                    showDragHandle: true,
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return const ProductBottomSheet();
+                                    },
+                                  );
+                                }
+                              });
+                        },
+                      );
+                    },
+                  ),
                   const Divider(),
                   ListTile(
                     leading: const IconContainer(icon: MingCute.question_line),

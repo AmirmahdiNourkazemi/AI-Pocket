@@ -1,3 +1,4 @@
+import 'package:appro_chat/core/locator/locator.dart';
 import 'package:appro_chat/core/usecase/use_case.dart';
 import 'package:appro_chat/feature/auth/domain/use_cases/google_use_case.dart';
 
@@ -26,10 +27,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           AuthState(authStatus: LoginInitial(), otpStatus: OtpInitial()),
         ) {
     on<LoginOtpEvent>((event, emit) async {
+      
       try {
         emit(state.copyWith(authStatus: LoginLoading()));
         DataState dataState = await googleUseCase(NoParams());
         if (dataState is DataSuccess) {
+          var chatMessage = LocalData.storeMessageCount.value ?? 1;
+          await locator<LocalData>().saveStoreMessageCount(chatMessage);
           emit(state.copyWith(authStatus: LoginSuccess(dataState.data)));
         }
         if (dataState is DataError) {
@@ -57,8 +61,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //   if (dataState is DataSuccess) {
     //     emit(state.copyWith(otpStatus: OtpSuccess(dataState.data)));
     //     var token = LocalData.firstTokenNotifier.value;
-    //     var freeUsage = LocalData.freeUsageCount.value ?? 1;
-    //       await locator<LocalData>().saveFreeUsageCount(freeUsage);
+    // var freeUsage = LocalData.freeUsageCount.value ?? 1;
+    //   await locator<LocalData>().saveFreeUsageCount(freeUsage);
     //     var storeMessageCount = LocalData.storeMessageCount.value ?? 1;
     //     await locator<LocalData>().saveStoreMessageCount(storeMessageCount);
     //     var show = LocalData.showAppReview.value ?? 2;
