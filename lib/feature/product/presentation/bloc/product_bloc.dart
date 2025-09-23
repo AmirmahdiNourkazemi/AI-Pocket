@@ -32,7 +32,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     );
     on<ProductPaymentEvent>(
       (event, emit) async {
-        emit(state.copyWith(paymentStatus: ProductPaymentLoading(event.productID)));
+        // emit(state.copyWith(paymentStatus: ProductPaymentLoading(event.productID)));
         DataState dataState = await myketPaymentUsecase
             .call(MyketPayment(event.productID, event.productUuid));
         print(dataState);

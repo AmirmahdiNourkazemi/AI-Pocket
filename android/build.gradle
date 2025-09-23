@@ -1,8 +1,8 @@
 allprojects {
     repositories {
-         maven {
-            url "http://49.12.1.76:8085"
-            allowInsecureProtocol = true
+    maven { url 'https://jitpack.io' }
+    maven {
+        url 'https://maven.myket.ir'
         }
         google()
         mavenCentral()

@@ -115,6 +115,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                               )
                             : null,
                         onTap: () async {
+                            showModalBottomSheet(
+                                    showDragHandle: true,
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return const ProductBottomSheet();
+                                    },
+                                  );
                           HandelAction.handleStatusUser(
                               context: context,
                               onTap: () {

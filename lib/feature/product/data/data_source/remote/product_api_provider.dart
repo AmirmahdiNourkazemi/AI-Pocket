@@ -1,8 +1,7 @@
 import 'package:appro_chat/core/const/app_string.dart';
 import 'package:dio/dio.dart';
-import 'package:myket_iap/myket_iap.dart';
-import 'package:myket_iap/util/iab_result.dart';
-import 'package:myket_iap/util/purchase.dart';
+import 'package:flutter_poolakey/flutter_poolakey.dart';
+import 'package:flutter_poolakey/purchase_info.dart';
 import '../../../../../core/localstorage/local_data.dart';
 import '../../../../../core/locator/locator.dart';
 import '../../../../../core/network/api_provider_imp.dart';
@@ -28,40 +27,37 @@ class ProductApiProvider {
     return res;
   }
 
-  Future<String> myketPayment(String productId, String productUuid) async {
-    var iabResult = await MyketIAP.init(
-        rsaKey: AppString.myketRsa, enableDebugLogging: true);
-    Map<dynamic, dynamic> result =
-        await MyketIAP.launchPurchaseFlow(sku: productUuid, payload: "payload");
-    IabResult purchaseResult = result[MyketIAP.RESULT];
-    var putSub;
-    Purchase? purchase = result[MyketIAP.PURCHASE];
-    if (purchase == null) {
-      return 'error';
-    } else {
-      if (purchase.mToken.isNotEmpty) {
-        putSub = await locator<ApiProviderImp>().put(
-            'https://api.approagency.ir/api/package-names/${AppString.packageName}/products/$productId/subscribe',
-            bodyParameters: {
-              'purchase_token': purchase.mToken,
-              'gateway': 'myket'
-            },
-            headerParameters: {
-              'Accept': 'application/json',
-              'Authorization': 'Bearer ${LocalData.firstTokenNotifier.value}'
-            },
-            queryParameter: {
-              'name': AppString.packageName,
-              'product_id': productId
-            });
-      }
-    }
+    Future<String> myketPayment(String productId, String productUuid) async {
+      try {
+    await FlutterPoolakey.connect(AppString.bazzarRSA, onDisconnected: () {
+      print('object');
+      return;
+    });
+    PurchaseInfo purchaseInfo = await FlutterPoolakey.subscribe(productUuid);
+    final subUserResponse = await locator<ApiProviderImp>().put(
+        'https://api.approagency.ir/api/package-names/${AppString.packageName}/products/$productId/subscribe',
+        bodyParameters: {
+          'purchase_token': purchaseInfo.purchaseToken,
+          'gateway': 'cafe'
+        },
+        headerParameters: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${LocalData.firstTokenNotifier.value}'
+        },
+        queryParameter: {
+          'name': AppString.packageName,
+          'product_id': productId
+        });
 
-    if (putSub.statusCode == 200) {
-      await MyketIAP.consume(purchase: purchase);
+    if (subUserResponse.statusCode == 200) {
       return 'ok';
     } else {
       return 'error';
     }
+      }catch (e) {
+        print(e);
+        return 'error';
+      }
+    
   }
 }
