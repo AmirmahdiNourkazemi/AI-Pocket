@@ -1,11 +1,13 @@
 import 'package:appro_chat/core/theme/svg_icon.dart';
 import 'package:appro_chat/core/theme/theme.dart';
+import 'package:appro_chat/core/usecase/use_case.dart';
 import 'package:appro_chat/core/widgets/app_bar.dart';
 import 'package:appro_chat/core/widgets/drawer_widget.dart';
 import 'package:appro_chat/core/widgets/handel_action.dart';
 import 'package:appro_chat/core/widgets/loading_dialog.dart';
 import 'package:appro_chat/feature/home/data/models/get_chat.dart';
 import 'package:appro_chat/feature/home/presentation/bloc/chat_bloc.dart';
+import 'package:appro_chat/feature/home/presentation/bloc/chat_event.dart';
 import 'package:appro_chat/feature/home/presentation/bloc/chat_state.dart';
 import 'package:appro_chat/feature/home/presentation/widgets/ai_list.dart';
 import 'package:appro_chat/feature/home/presentation/widgets/show_input_chat_buttom_sheet.dart';
@@ -116,6 +118,11 @@ class AiContainer extends StatelessWidget {
         HandelAction.handleStatusUser(
           context: context,
           onTap: () {
+            if (item['no-input'] == true) {
+                     context.read<ChatBloc>().add(SendMessageEvent(
+                          StoreMessage(item['system'],
+                           item['hint'] )));
+            }
             showInputChatButtomSheet(context: context, item: item);
           },
         );
