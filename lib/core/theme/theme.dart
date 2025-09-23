@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 class AppTheme {
   static TextTheme textTheme = appTextTheme;
 
-   static ColorScheme lightScheme() {
+  static ColorScheme lightScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
       primary: Color(0xFF7C4DFF), // بنفش مدرن
@@ -54,7 +54,7 @@ class AppTheme {
     );
   }
 
- static ColorScheme darkScheme() {
+  static ColorScheme darkScheme() {
     return const ColorScheme(
       brightness: Brightness.dark,
       primary: Color(0xFF7C4DFF),
@@ -115,13 +115,12 @@ class AppTheme {
 
   static ThemeData theme(ColorScheme colorScheme) => ThemeData(
         brightness: colorScheme.brightness,
-        
         colorScheme: colorScheme,
         iconTheme: IconThemeData(
           color: colorScheme.inversePrimary,
         ),
         bottomSheetTheme: BottomSheetThemeData(
-          backgroundColor: colorScheme.onPrimary,
+          backgroundColor: colorScheme.surface,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
@@ -145,9 +144,7 @@ class AppTheme {
           backgroundColor: colorScheme.primary,
           foregroundColor: colorScheme.onPrimary,
         ),
-        textTheme: textTheme.apply(
-          fontSizeFactor: 1.0
-        ),
+        textTheme: textTheme.apply(fontSizeFactor: 1.0),
         scaffoldBackgroundColor: colorScheme.surface,
         canvasColor: colorScheme.surface,
       );
@@ -244,7 +241,7 @@ const TextTheme appTextTheme = TextTheme(
     fontFamily: 'IRANYekan',
     fontWeight: FontWeight.w400,
     fontSize: 14.0, // Replace with your normal font size
-  ),  
+  ),
   displayLarge: TextStyle(
     fontFamily: 'IRANYekan',
     fontWeight: FontWeight.w600,

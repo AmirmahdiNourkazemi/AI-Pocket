@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if (state.authStatus is LoginSuccess) {
               hideLoadingDialog(context);
               Navigator.of(context).pushNamedAndRemoveUntil(
-                '/',
+                '/home',
                 (route) => false, // Remove all previous routes
               );
             } else if (state.authStatus is LoginError) {

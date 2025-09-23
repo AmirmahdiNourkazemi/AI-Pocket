@@ -1,14 +1,19 @@
 import 'package:appro_chat/core/theme/svg_icon.dart';
 import 'package:appro_chat/core/theme/theme.dart';
+import 'package:appro_chat/core/usecase/use_case.dart';
 import 'package:appro_chat/core/widgets/app_bar.dart';
 import 'package:appro_chat/core/widgets/drawer_widget.dart';
+import 'package:appro_chat/core/widgets/handel_action.dart';
 import 'package:appro_chat/core/widgets/loading_dialog.dart';
 import 'package:appro_chat/feature/home/data/models/get_chat.dart';
 import 'package:appro_chat/feature/home/presentation/bloc/chat_bloc.dart';
+import 'package:appro_chat/feature/home/presentation/bloc/chat_event.dart';
 import 'package:appro_chat/feature/home/presentation/bloc/chat_state.dart';
 import 'package:appro_chat/feature/home/presentation/widgets/ai_list.dart';
 import 'package:appro_chat/feature/home/presentation/widgets/show_input_chat_buttom_sheet.dart';
 import 'package:appro_chat/feature/home/presentation/widgets/success_message_chat_bot.dart';
+import 'package:appro_chat/feature/status/presentation/widget/free_usage_listenable.dart';
+import 'package:appro_chat/feature/status/presentation/widget/status_value_listenable.dart';
 import 'package:appro_chat/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
               useSafeArea: true,
               isDismissible: false,
               context: context,
+              backgroundColor: Theme.of(context).colorScheme.background,
               builder: (context) {
                 return SuccessMessageChatBot(
                   message: state.chat,
@@ -65,6 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const Center(
+                    child: StatusValueListenable(
+                        statusEmpty: FreeUsageListenable())),
                 // Lottie.asset('assets/json/ai.json',
                 //     height: MediaQuery.of(context).size.height * 0.3),
                 GridView.count(
@@ -106,7 +115,17 @@ class AiContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        showInputChatButtomSheet(context: context, item: item);
+        HandelAction.handleStatusUser(
+          context: context,
+          onTap: () {
+            if (item['no-input'] == true) {
+                     context.read<ChatBloc>().add(SendMessageEvent(
+                          StoreMessage(item['system'],
+                           item['hint'] )));
+            }
+            showInputChatButtomSheet(context: context, item: item);
+          },
+        );
       },
       child: SizedBox(
         height: 150,

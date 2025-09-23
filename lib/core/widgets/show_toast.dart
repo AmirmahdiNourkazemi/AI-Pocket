@@ -14,7 +14,7 @@ Future<void> showToast(
   toastification.show(
     context: currentContext,
     type: type,
-    alignment: Alignment.bottomCenter,
+    alignment: Alignment.topCenter,
     direction: TextDirection.rtl,
     style: ToastificationStyle.minimal,
     showIcon: true,

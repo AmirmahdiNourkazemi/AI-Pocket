@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:appro_chat/feature/status/data/model/status_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,15 +8,12 @@ class LocalData {
   static final ValueNotifier<String?> finalTokenNotifier = ValueNotifier(null);
   static final ValueNotifier<bool> isDark = ValueNotifier(false);
   static final ValueNotifier<bool> showIntro = ValueNotifier(false);
-
-  static final ValueNotifier<Map<String, DateTime>> dateSelector = ValueNotifier({
-  });
+  static final ValueNotifier<StatusModel?> statusNotifier = ValueNotifier(null);
+  static final ValueNotifier<Map<String, DateTime>> dateSelector =
+      ValueNotifier({});
   static final ValueNotifier<String> ImageUrlNotifier = ValueNotifier('');
   static final ValueNotifier<int?> freeUsageCount = ValueNotifier(1);
   static final ValueNotifier<int?> storeMessageCount = ValueNotifier(1);
-
-
-
 
   Future<void> saveTheme(bool theme) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -27,6 +25,7 @@ class LocalData {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     isDark.value = prefs.getBool('theme') ?? false;
   }
+
   Future<void> saveIntro(bool theme) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('intro', theme);
@@ -38,35 +37,34 @@ class LocalData {
     showIntro.value = prefs.getBool('intro') ?? false;
   }
 
- Future<void> saveDateSelector(Map<String, DateTime> dateSelector) async {
-  final prefs = await SharedPreferences.getInstance();
+  Future<void> saveDateSelector(Map<String, DateTime> dateSelector) async {
+    final prefs = await SharedPreferences.getInstance();
 
-  // Convert DateTime to String before saving
-  final jsonString = jsonEncode(
-    dateSelector.map((key, value) => MapEntry(key, value.toIso8601String())),
-  );
+    // Convert DateTime to String before saving
+    final jsonString = jsonEncode(
+      dateSelector.map((key, value) => MapEntry(key, value.toIso8601String())),
+    );
 
-  await prefs.setString('dateSelector', jsonString);
-await  loadDateSelector();
-}
-
-Future<Map<String, DateTime>> loadDateSelector() async {
-  final prefs = await SharedPreferences.getInstance();
-  final jsonString = prefs.getString('dateSelector');
-
-  if (jsonString == null) {
-    return {}; // return empty map if not found
+    await prefs.setString('dateSelector', jsonString);
+    await loadDateSelector();
   }
 
-  // Decode JSON and convert String back to DateTime
-  final Map<String, dynamic> decoded = jsonDecode(jsonString);
-  dateSelector.value =  decoded.map(
-    (key, value) => MapEntry(key, DateTime.parse(value)),
-  );
+  Future<Map<String, DateTime>> loadDateSelector() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = prefs.getString('dateSelector');
 
-  return dateSelector.value;
-}
+    if (jsonString == null) {
+      return {}; // return empty map if not found
+    }
 
+    // Decode JSON and convert String back to DateTime
+    final Map<String, dynamic> decoded = jsonDecode(jsonString);
+    dateSelector.value = decoded.map(
+      (key, value) => MapEntry(key, DateTime.parse(value)),
+    );
+
+    return dateSelector.value;
+  }
 
 // ----------------------------------------------------------
   Future<void> saveStoreMessageCount(int count) async {
@@ -102,28 +100,24 @@ Future<Map<String, DateTime>> loadDateSelector() async {
     finalTokenNotifier.value = prefs.getString('finalToken');
   }
 
+  Future<void> saveStatus(StatusModel status) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String statusJson = jsonEncode(status.toJson());
+    prefs.setString('statusEntity', statusJson);
+    statusNotifier.value = status;
+    loadStatus();
+  }
 
+  Future<StatusModel?> loadStatus() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? statusJson = prefs.getString('statusEntity');
 
-  // Future<void> saveStatus(StatusModel status) async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String statusJson = jsonEncode(status.toJson());
-  //   prefs.setString('statusEntity', statusJson);
-  //   statusNotifier.value = status;
-  //   loadStatus();
-  // }
-
-  // Future<StatusModel?> loadStatus() async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? statusJson = prefs.getString('statusEntity');
-    
-  //   if (statusJson != null) {
-  //     Map<String, dynamic> statusMap = jsonDecode(statusJson);
-  //     statusNotifier.value = StatusModel.fromJson(statusMap);
-  //   }
-  //   return null; // Return null if not found
-  // }
-
-
+    if (statusJson != null) {
+      Map<String, dynamic> statusMap = jsonDecode(statusJson);
+      return statusNotifier.value = StatusModel.fromJson(statusMap);
+    }
+    return null; // Return null if not found
+  }
 
   Future<void> saveImageUrl(String image) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -150,5 +144,4 @@ Future<Map<String, DateTime>> loadDateSelector() async {
   // Future<void> logOut() async {
   //   locator<UserLocalData>().clearUser();
   // }
-
 }

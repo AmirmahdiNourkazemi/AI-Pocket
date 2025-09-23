@@ -1,3 +1,5 @@
+import 'package:appro_chat/core/localstorage/local_data.dart';
+import 'package:appro_chat/core/locator/locator.dart';
 import 'package:appro_chat/core/resources/data_state.dart';
 import 'package:appro_chat/feature/home/domain/usecase/store_chat_usecase.dart';
 import 'package:appro_chat/feature/home/presentation/bloc/chat_event.dart';
@@ -9,12 +11,28 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc(this.storeChatUsecase) : super(ChatInitial()) {
     on<SendMessageEvent>((event, emit) async {
       emit(ChatLoading());
-      DataState result = await storeChatUsecase(event.message);
-      // result.fold((l) => emit(ChatFailure(l.message)), (r) => emit(ChatSuccess(r)));
-      if (result is DataSuccess) {
-        emit(ChatSuccess(result.data));
-      } else if (result is DataError) {
-        emit(ChatFailure(result.error!));
+      DataState dataState;
+      var freeChat = LocalData.storeMessageCount.value;
+      var status = LocalData.statusNotifier.value;
+      if ((freeChat == null || freeChat == 0) && status!.products!.isEmpty) {
+        emit(ChatNotPaid('لطفا اشتراک خریداری کنید'));
+      } else {
+        dataState = await storeChatUsecase(event.message);
+        if (dataState is DataSuccess) {
+          if (status!.products?.isEmpty ?? true) {
+            if (freeChat! > 0) {
+              await locator<LocalData>()
+                  .saveStoreMessageCount(freeChat > 0 ? freeChat - 1 : 1);
+            }
+            emit(ChatSuccess(dataState.data));
+          } else {
+            emit(ChatSuccess(dataState.data));
+          }
+        }
+        if (dataState is DataError) {
+          emit(ChatFailure(dataState.error!));
+          // await locator<LocalData>().saveFreeUsageCount(freeUsage!);
+        }
       }
     });
     on<ClearChatEvent>((event, emit) {
