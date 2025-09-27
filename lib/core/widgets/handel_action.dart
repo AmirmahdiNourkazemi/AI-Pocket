@@ -19,13 +19,14 @@ class HandelAction {
     required BuildContext context,
     required VoidCallback? onTap,
     bool? navigateBack = false,
+    bool? sub,
   }) async {
     await getStatus().then((value) async {
       print(value?.products);
       if (value?.products?.isEmpty ?? true) {
         await freeUsage();
-        print(LocalData.storeMessageCount.value);
-        if (LocalData.storeMessageCount.value! > 0) {
+        // print(LocalData.storeMessageCount.value);
+        if (sub == false) {
           onTap?.call();
         } else {
           showToast(
