@@ -25,7 +25,8 @@ class FreeUsageListenable extends StatelessWidget {
                 });
           }
           return Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const IconContainer(
                 icon: Icons.warning_amber_rounded,
@@ -44,6 +45,7 @@ class FreeUsageListenable extends StatelessWidget {
         } else {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const IconContainer(
                 icon: Icons.warning_amber_rounded,

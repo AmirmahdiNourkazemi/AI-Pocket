@@ -14,16 +14,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       DataState dataState;
       var freeChat = LocalData.storeMessageCount.value;
       var status = LocalData.statusNotifier.value;
-      if ((freeChat == null || freeChat == 0) && status!.products!.isEmpty) {
-        emit(ChatNotPaid('لطفا اشتراک خریداری کنید'));
-      } else {
+    
         dataState = await storeChatUsecase(event.message);
         if (dataState is DataSuccess) {
           if (status!.products?.isEmpty ?? true) {
-            if (freeChat! > 0) {
-              await locator<LocalData>()
-                  .saveStoreMessageCount(freeChat > 0 ? freeChat - 1 : 1);
-            }
+            // if (freeChat! > 0) {
+            //   await locator<LocalData>()
+            //       .saveStoreMessageCount(freeChat > 0 ? freeChat - 1 : 1);
+            // }
             emit(ChatSuccess(dataState.data));
           } else {
             emit(ChatSuccess(dataState.data));
@@ -33,7 +31,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           emit(ChatFailure(dataState.error!));
           // await locator<LocalData>().saveFreeUsageCount(freeUsage!);
         }
-      }
+      
     });
     on<ClearChatEvent>((event, emit) {
       emit(ChatInitial());

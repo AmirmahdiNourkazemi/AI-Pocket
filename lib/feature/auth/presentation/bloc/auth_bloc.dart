@@ -32,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(authStatus: LoginLoading()));
         DataState dataState = await googleUseCase(NoParams());
         if (dataState is DataSuccess) {
-          var chatMessage = LocalData.storeMessageCount.value ?? 1;
+          var chatMessage = LocalData.storeMessageCount.value ?? 3;
           await locator<LocalData>().saveStoreMessageCount(chatMessage);
           emit(state.copyWith(authStatus: LoginSuccess(dataState.data)));
         }
