@@ -1,5 +1,6 @@
 import 'package:appro_chat/core/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class GoPremiumWidgetWithIcon extends StatelessWidget {
   final VoidCallback? onTap;
@@ -44,9 +45,9 @@ class GoPremiumWidgetWithIcon extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                Icons.star,
+                Iconsax.crown_1_outline,
                 color: colorScheme.onPrimaryContainer,
-                size: 24,
+                size: 28,
               ),
             ),
             

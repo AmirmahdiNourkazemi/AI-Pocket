@@ -1,12 +1,10 @@
 import 'package:appro_chat/core/localstorage/local_data.dart';
-import 'package:appro_chat/core/theme/svg_icon.dart';
 import 'package:appro_chat/core/theme/theme.dart';
 import 'package:appro_chat/core/usecase/use_case.dart';
 import 'package:appro_chat/core/widgets/app_bar.dart';
 import 'package:appro_chat/core/widgets/drawer_widget.dart';
 import 'package:appro_chat/core/widgets/handel_action.dart';
 import 'package:appro_chat/core/widgets/loading_dialog.dart';
-import 'package:appro_chat/feature/home/data/models/get_chat.dart';
 import 'package:appro_chat/feature/home/presentation/bloc/chat_bloc.dart';
 import 'package:appro_chat/feature/home/presentation/bloc/chat_event.dart';
 import 'package:appro_chat/feature/home/presentation/bloc/chat_state.dart';
@@ -14,14 +12,11 @@ import 'package:appro_chat/feature/home/presentation/widgets/ai_list.dart';
 import 'package:appro_chat/feature/home/presentation/widgets/show_input_chat_buttom_sheet.dart';
 import 'package:appro_chat/feature/home/presentation/widgets/success_message_chat_bot.dart';
 import 'package:appro_chat/feature/product/presentation/widget/product_buttom_sheet.dart';
-import 'package:appro_chat/feature/status/presentation/widget/free_usage_listenable.dart';
 import 'package:appro_chat/feature/status/presentation/widget/status_value_listenable.dart';
-import 'package:appro_chat/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:lottie/lottie.dart';
 
 import '../widgets/premium_widget.dart';
 
@@ -133,7 +128,7 @@ class AiContainer extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: LocalData.statusNotifier,
       builder: (context, value, child) {
-        final notPaid = value?.products?.isEmpty;
+       print(value?.products);
         return InkWell(
           onTap: () {
             HandelAction.handleStatusUser(
@@ -195,10 +190,10 @@ class AiContainer extends StatelessWidget {
                   ],
                 ),
                 if (item['subscription'] == true) ...[
-                  if (notPaid == true) ...[
+                  if (value == null || value.products!.isEmpty) ...[
                     Positioned(
                       top: 1,
-                      left: 22,
+                      left: 27,
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
@@ -209,7 +204,7 @@ class AiContainer extends StatelessWidget {
                         child: Icon(
                           Iconsax.crown_1_outline,
                           color: Theme.of(context).colorScheme.background,
-                          size: 18,
+                          size: 22,
                         ),
                       ),
                     ),
